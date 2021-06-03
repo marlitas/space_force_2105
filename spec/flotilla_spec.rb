@@ -50,7 +50,7 @@ RSpec.describe Flotilla do
   it 'can add personnel' do
     @seventh_flotilla.add_personnel(@kathy)
     @seventh_flotilla.add_personnel(@polly)
-    @eventh_flotilla.add_personnel(@rover)
+    @seventh_flotilla.add_personnel(@rover)
     @seventh_flotilla.add_personnel(@sampson)
 
     expect(@seventh_flotilla.personnel).to eq([@kathy, @polly, @rover, @sampson])
@@ -59,10 +59,10 @@ RSpec.describe Flotilla do
   it 'can recommend personnel' do
     @seventh_flotilla.add_personnel(@kathy)
     @seventh_flotilla.add_personnel(@polly)
-    @eventh_flotilla.add_personnel(@rover)
+    @seventh_flotilla.add_personnel(@rover)
     @seventh_flotilla.add_personnel(@sampson)
 
     expect(@seventh_flotilla.recommend_personnel(@daedalus)).to eq([@kathy, @sampson])
-    expect(@seventh_flotilla.recommend_personnel(@odyssey)).to eq(@polly)
+    expect(@seventh_flotilla.recommend_personnel(@odyssey)).to eq([@polly])
   end
 end

@@ -17,10 +17,16 @@ class Flotilla
   def recommend_personnel(ship)
     ship.requirements.flat_map do |requirement|
       @personnel.find_all do |person|
-        # require "pry"; binding.pry
         person.specialties.include?(requirement.keys[0]) && (person.experience >= requirement.values[0])
-        # require "pry"; binding.pry
       end
     end.uniq
+  end
+
+  def personnel_by_ship
+    sorted_personnel = {}
+    @ships.each do |ship|
+        sorted_personnel[ship] = self.recommend_personnel(ship)
+    end
+    sorted_personnel
   end
 end

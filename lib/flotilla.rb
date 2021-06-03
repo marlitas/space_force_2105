@@ -17,7 +17,9 @@ class Flotilla
   def recommend_personnel(ship)
     ship.requirements.flat_map do |requirement|
       @personnel.find_all do |person|
-        person.specialties.include?(requirement.keys[0]) && (person.experience >= requirement.values[0])
+        requirement.any? do |specialty, experience|
+          person.specialties.include?(specialty) && (person.experience >= experience)
+        end
       end
     end.uniq
   end
@@ -33,8 +35,10 @@ class Flotilla
   def fully_staffed?(ship)
     answer = false
     self.personnel_by_ship[ship].each do |person|
-      answer = ship.requirements.all? do |requirement|
-        person.specialties.include?(requirement.keys[0])
+      ship.requirements.each do |requirement|
+        answer = requirement.all? do |specialty, experience|
+          person.specialties.include?(specialty)
+        end
       end
     end
     answer

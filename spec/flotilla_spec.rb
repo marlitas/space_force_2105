@@ -12,6 +12,10 @@ RSpec.describe Flotilla do
     @odyssey.add_requirement({operations: 6})
     @odyssey.add_requirement({maintenance: 3})
 
+    @prometheus = Spacecraft.new({name: 'Prometheus', fuel: 300})
+    @prometheus.add_requirement({operations: 6})
+    @prometheus.add_requirement({science: 3})
+
     @seventh_flotilla = Flotilla.new({designation: 'Seventh Flotilla'})
 
     @kathy = Person.new('Kathy Chan', 10)
@@ -77,6 +81,31 @@ RSpec.describe Flotilla do
 
     expect(@seventh_flotilla.personnel_by_ship).to eq({@daedalus => [@kathy, @sampson],
                                                         @odyssey => [@polly]})
+  end
+
+  it 'can check if ship is fully staffed' do
+    @seventh_flotilla.add_personnel(@kathy)
+    @seventh_flotilla.add_personnel(@polly)
+    @seventh_flotilla.add_personnel(@rover)
+    @seventh_flotilla.add_personnel(@sampson)
+
+    @seventh_flotilla.add_ship(@daedalus)
+    @seventh_flotilla.add_ship(@prometheus)
+
+    expect(@seventh_flotilla.fully_staffed?(@daedalus)).to be true
+    expect(@seventh_flotilla.fully_staffed?(@prometheus)).to be false
+  end
+
+  it 'can ready ships' do
+    @seventh_flotilla.add_personnel(@kathy)
+    @seventh_flotilla.add_personnel(@polly)
+    @seventh_flotilla.add_personnel(@rover)
+    @seventh_flotilla.add_personnel(@sampson)
+
+    @seventh_flotilla.add_ship(@daedalus)
+    @seventh_flotilla.add_ship(@prometheus)
+
+    expect(@seventh_flotilla.ready_ships(100)).to eq([@daedalus])
   end
 
 end
